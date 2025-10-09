@@ -1,0 +1,81 @@
+/* Sidebar container */
+#navigation-container {
+  width: 4%;
+  transition: width 0.3s ease-in-out;
+  overflow: hidden; /* Hide content during transition */
+  background-color: #000;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 999;
+}
+
+/* Expand on hover */
+#navigation-container:hover {
+  width: 15%;
+}
+
+/* Hide nav item names initially */
+.nav-item-name {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Show nav item names on hover */
+#navigation-container:hover .nav-item-name {
+  display: inline;
+  opacity: 1;
+}
+
+/* Search input & icon for responsive sidebar */
+.search-input {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+#navigation-container:hover .search-input {
+  display: block;
+  opacity: 1;
+}
+
+#navigation-container:hover .search-icon {
+  display: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* Make it responsive */
+@media screen and (max-width: 1024px) { /* lg */
+  #navigation-container {
+    width: 6%;
+  }
+  #navigation-container:hover {
+    width: 18%;
+  }
+}
+
+@media screen and (max-width: 768px) { /* md */
+  #navigation-container {
+    width: 50px; /* small icon-only sidebar */
+    flex-direction: row;
+    height: auto;
+    position: relative;
+  }
+  #navigation-container:hover {
+    width: 100%;
+    flex-direction: row;
+  }
+}
+
+@media screen and (max-width: 640px) { /* sm */
+  #navigation-container {
+    display: none; /* hide sidebar on very small screens */
+  }
+}
