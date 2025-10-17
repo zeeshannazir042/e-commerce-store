@@ -1,52 +1,73 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import React from 'react'
-import App from './App.jsx'
-import { Route, RouterProvider, createRoutesFromElements } from 'react-router'
-import { createBrowserRouter } from 'react-router-dom'
-import './index.css'
-import { Provider } from 'react-redux'
-import store from './Redux/store.js'
-import Login from './Pages/Auth/Login.jsx'
-import Register from './Pages/Auth/Register.jsx'
-//private route
-import { PrivateRoute } from './Components/PrivateRoute.jsx'
-import Profile from './Pages/User/Profile.jsx'
-//admin routes
-import AdminRoutes from './Pages/Admin/AdminRoutes.jsx'
-import UserList from './Pages/Admin/UserList.jsx'
-import CategoryList from './Pages/Admin/CategoryList.jsx'
-import ProductList from './Pages/Admin/ProductList.jsx'
-import ProductUpdate from './Pages/Admin/ProductUpdate.jsx'
-import AllProducts from './Pages/Admin/AllProducts.jsx'
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path='/' element={<App />} >
-      <Route path='/' element = {<PrivateRoute/>}>
-      <Route path='/profile' element = {<Profile/>}/>
-      </Route>
-      <Route path='/login' element = {<Login/>}/>
-      <Route path='/register' element = {<Register/>}/>
+import { Provider } from 'react-redux';
+import store from './Redux/store.js';
 
-      <Route path='/admin' element = {<AdminRoutes/>}>
-      <Route path='userlist' element = {<UserList/>}/>
-      <Route path='categorylist' element = {<CategoryList/>}/>
-      <Route path='productlist' element={<ProductList/>}/>
-      <Route path='allproductslist' element={<AllProducts/>}/>
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 
-      <Route path='product/update/:id' element={<ProductUpdate/>}/>
-      </Route>
+// Pages
+import Home from './Home.jsx';
+import Login from './Pages/Auth/Login.jsx';
+import Register from './Pages/Auth/Register.jsx';
+import Profile from './Pages/User/Profile.jsx';
 
-    </Route>
-    
-    
-  )
-)
+// Admin Pages
+import AdminRoutes from './Pages/Admin/AdminRoutes.jsx';
+import UserList from './Pages/Admin/UserList.jsx';
+import CategoryList from './Pages/Admin/CategoryList.jsx';
+import ProductList from './Pages/Admin/ProductList.jsx';
+import AllProducts from './Pages/Admin/AllProducts.jsx';
+import ProductUpdate from './Pages/Admin/ProductUpdate.jsx';
+
+// Components
+import { PrivateRoute } from './Components/PrivateRoute.jsx';
+import Favorites from './Pages/Products/Favorites.jsx';
+import ProductDetails from './Pages/Products/ProductDetails.jsx';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    children: [
+      { index: true, element: <Home /> }, // Home page
+      {path:'/favorite', element: <Favorites/> },
+      {path:'/product/:id', element: <ProductDetails/>},
+
+      // Auth routes
+      { path: 'login', element: <Login /> },
+      { path: 'register', element: <Register /> },
+
+      // Private routes
+      {
+        element: <PrivateRoute />, // Private wrapper
+        children: [
+          { path: 'profile', element: <Profile /> },
+        ],
+      },
+
+      // Admin routes
+      {
+        path: 'admin',
+        element: <AdminRoutes />, // Admin wrapper
+        children: [
+          { path: 'userlist', element: <UserList /> },
+          { path: 'categorylist', element: <CategoryList /> },
+          { path: 'productlist', element: <ProductList /> },
+          { path: 'allproductslist', element: <AllProducts /> },
+          { path: 'product/update/:id', element: <ProductUpdate /> },
+        ],
+      },
+    ],
+  },
+]);
 
 createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-  </Provider>
-
-)
+  <React.StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </React.StrictMode>
+);

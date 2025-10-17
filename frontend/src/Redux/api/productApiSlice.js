@@ -5,17 +5,25 @@ export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // Get products with keyword
     getProducts: builder.query({
-      query: (keyword) => ({
-        url: `${PRODUCT_URL}${keyword}`,
+      query: (keyword = "") => ({
+        url: `${PRODUCT_URL}`,
         method: "GET",
-        params: { keyword },
+        params: keyword ? { keyword } : {},
       }),
-      keepUnusedDataFor: 5,
       providesTags: ["Products"],
     }),
 
     // Get product by ID
     getProductById: builder.query({
+      query: (id) => ({
+        url: `${PRODUCT_URL}/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Products", id }],
+    }),
+
+    // ✅ Product details (same as getProductById, but separate hook)
+    getProductDetails: builder.query({
       query: (id) => ({
         url: `${PRODUCT_URL}/${id}`,
         method: "GET",
@@ -39,7 +47,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: productData,
       }),
-      invalidatesTags: ["Products"], // <-- automatically refetch product lists
+      invalidatesTags: ["Products"],
     }),
 
     // Update product
@@ -58,7 +66,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
         url: `${PRODUCT_URL}/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Products"], // <-- automatically refetch
+      invalidatesTags: ["Products"],
     }),
 
     // Upload product image
@@ -70,7 +78,6 @@ export const productApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Products"],
     }),
-
 
     // Review product
     reviewProduct: builder.mutation({
@@ -105,6 +112,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
 export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
+  useGetProductDetailsQuery,
   useGetAllProductsQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
