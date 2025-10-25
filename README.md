@@ -1,2 +1,7 @@
 # e-store
-Project structure:
+# Run Frontend: 
+npm run frontend
+# Run Backend
+npm run backend
+# Run Project
+npm run dev
