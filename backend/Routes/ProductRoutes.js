@@ -12,7 +12,8 @@ import {
   fetchProducts,
   addProductReview,
   fetchTopProducts,
-    fetchNewProducts
+  fetchNewProducts,
+  filterProducts
 } from "../Controllers/productController.js";
 
 
@@ -46,8 +47,10 @@ router.put("/:id", authenticator, admin, checkId, formidable(), updateProductDet
 router.delete("/:id", authenticator, admin, removeProduct);
 
 // Add a product review (authenticated users, no admin required)
-router.post("/:id/reviews", authenticator, checkId ,addProductReview);
+router.post("/:id/reviews", authenticator, checkId, addProductReview);
 // fetch new products
 router.get("/new", fetchNewProducts);
+
+router.route('/filtered-products').post(filterProducts);
 
 export default router;

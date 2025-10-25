@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetProductsQuery } from "./Redux/api/productApiSlice";
+import { useGetProductsQuery } from "../Redux/api/productApiSlice";
 
-import Loader from "./Components/Loader";
-import Header from "./Components/Header";
-import Message from "./Components/Message";
-import Product from "./Pages/Products/Product";
+import Loader from "../Components/Loader";
+import Header from "../Components/Header";
+import Message from "../Components/Message";
+import Product from "./Products/Product";
 
 const Home = () => {
   const IMAGE_BASE_URL = "http://localhost:5000/uploads";

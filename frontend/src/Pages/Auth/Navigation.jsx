@@ -13,9 +13,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../Redux/api/usersApiSlice";
 import { logout } from "../../Redux/features/auth/authSlice";
 import FavoriteCount from "../Products/FavoriteCount";
+import CartCount from "../../Components/CartCount";
 
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.auth);
+  const {cartItem} = useSelector((state)=>state.cart)
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -107,6 +109,7 @@ const Navigation = () => {
             >
               {item.icon}
               {item.name === "Favorite" && <FavoriteCount />}
+              {item.name === "Cart" && <CartCount />}
               {hovered && <span className="font-medium">{item.name}</span>}
               {!hovered && (
                 <span className="absolute left-full ml-2 w-max bg-black text-white text-sm rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -248,6 +251,7 @@ const Navigation = () => {
               >
                 {item.icon}
                 {item.name === "Favorite" && <FavoriteCount />}
+                {item.name === "Cart" && <CartCount />}
                 <span className="font-medium">{item.name}</span>
               </Link>
             ))}
